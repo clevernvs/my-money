@@ -1,11 +1,11 @@
-import express from 'express'
+import express, { Router } from 'express'
 import auth from './middlewares/auth'
 import errorHandler from './middlewares/errorHandler'
 import BillingCycle = require('../../db/mongoose/models/BillingCycleModel')
 import AuthController = require('../../../interfaces/http/AuthController')
 
-export = function (server: any) {
-    const protectedApi = express.Router()
+export = function (server: express.Express) {
+    const protectedApi: Router = express.Router()
     server.use('/api/v2', protectedApi)
     protectedApi.use(auth as any)
 
@@ -13,7 +13,7 @@ export = function (server: any) {
     BillingCycle.updateOptions({ new: true, runValidators: true })
     BillingCycle.after('post', errorHandler as any).after('put', errorHandler as any)
 
-    BillingCycle.route('count', (req: any, res: any) => {
+    BillingCycle.route('count', (_req: any, res: any) => {
         BillingCycle.count((error: any, value: any) => {
             if (error) {
                 res.status(500).json({ errors: [error] })
@@ -23,7 +23,7 @@ export = function (server: any) {
         })
     })
 
-    BillingCycle.route('summary', (req: any, res: any) => {
+    BillingCycle.route('summary', (_req: any, res: any) => {
         BillingCycle.aggregate([
             { $project: { credit: { $sum: "$credits.value" }, debt: { $sum: "$debts.value" } } },
             { $group: { _id: null, credit: { $sum: "$credit" }, debt: { $sum: "$debt" } } },
@@ -37,7 +37,7 @@ export = function (server: any) {
         })
     })
 
-    const openApi = express.Router()
+    const openApi: Router = express.Router()
     server.use('/api/v2', openApi)
 
     openApi.post('/login', AuthController.login)

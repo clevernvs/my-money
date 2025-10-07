@@ -1,14 +1,21 @@
 import 'dotenv/config'
 
-import server = require('../infrastructure/web/express/server')
-import routes = require('../infrastructure/web/express/routes')
+import server from '../infrastructure/web/express/server'
+import routes from '../infrastructure/web/express/routes'
 import connect from '../infrastructure/db/mongoose/connection/mongooseConnection'
 
-connect().then(() => {
-    routes(server)
-}).catch(err => {
-    console.error('Failed to connect to MongoDB', err)
-    process.exit(1)
-})
+const port: number = Number(process.env.PORT) || 3003
+
+connect()
+    .then(() => {
+        routes(server)
+        server.listen(port, () => {
+            console.log(`BACKEND is running on port ${port}...`)
+        })
+    })
+    .catch(err => {
+        console.error('Failed to connect to MongoDB', err)
+        process.exit(1)
+    })
 
 

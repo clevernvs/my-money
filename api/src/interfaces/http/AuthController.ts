@@ -9,7 +9,7 @@ const passwordRegex = /((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,20})/
 
 const sendErrorsFromDB = (res: Response, dbErrors: any) => {
     const errors: string[] = []
-    _.forIn(dbErrors.errors, (error: any) => errors.push(error.message))
+    _.forIn(dbErrors?.errors, (error: any) => errors.push(error.message))
     return res.status(400).json({ errors })
 }
 
@@ -20,8 +20,7 @@ const signMinimal = (user: any) => {
 }
 
 const login = (req: Request, res: Response) => {
-    const email = (req.body && (req.body as any).email) || ''
-    const password = (req.body && (req.body as any).password) || ''
+    const { email = '', password = '' } = (req.body || {}) as any
 
     User.findOne({ email }, (err: any, user: any) => {
         if (err) return sendErrorsFromDB(res, err)
@@ -35,17 +34,15 @@ const login = (req: Request, res: Response) => {
 }
 
 const validateToken = (req: Request, res: Response) => {
-    const token = (req.body && (req.body as any).token) || ''
+    const { token = '' } = (req.body || {}) as any
     jwt.verify(token, process.env.AUTH_SECRET || 'my-secret', function (err) {
         return res.status(200).send({ valid: !err })
     })
 }
 
 const signup = (req: Request, res: Response) => {
-    const name = (req.body && (req.body as any).name) || ''
-    const email = (req.body && (req.body as any).email) || ''
-    const password = (req.body && (req.body as any).password) || ''
-    const confirmPassword = (req.body && (req.body as any).confirm_password) || ''
+    const { name = '', email = '', password = '', confirm_password = '' } = (req.body || {}) as any
+    const confirmPassword = confirm_password
 
     if (!email.match(emailRegex)) {
         return res.status(400).send({ errors: ['O e-mail informa está inválido'] })
