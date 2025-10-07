@@ -10,7 +10,7 @@ pnpm-debug.log*
 .env.*
 
 # Build outputs
-backend/dist/
+api/dist/
 frontend/dist/
 frontend/build/
 
@@ -31,7 +31,7 @@ frontend/.cache/
 # Logs
 logs/
 *.log
-backend/*.log
+api/*.log
 frontend/*.log
 
 # Misc
