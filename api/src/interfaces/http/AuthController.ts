@@ -1,7 +1,7 @@
 import _ from 'lodash'
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
-import User = require('../../infrastructure/db/mongoose/models/UserModel')
+import User from '../../infrastructure/db/mongoose/models/UserModel'
 import { Request, Response } from 'express'
 
 const emailRegex = /\S+@\S+\.\S+/
