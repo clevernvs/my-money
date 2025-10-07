@@ -1,0 +1,40 @@
+services:
+  mongo:
+    image: mongo:5
+    container_name: mymoney-mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: mymoney-api
+    depends_on:
+      - mongo
+    environment:
+      - PORT=3003
+      - MONGO_URL=mongodb://mongo:27017/mymoney
+      - AUTH_SECRET=change-me
+    ports:
+      - "3003:3003"
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: mymoney-frontend
+    environment:
+      - REACT_APP_API=http://localhost:3003
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+
+volumes:
+  mongo_data:
+
+
