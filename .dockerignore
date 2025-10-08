@@ -2,9 +2,9 @@
 .env.*
 node_modules
 **/node_modules
-backend/dist
-frontend/dist
-frontend/build
+api/dist
+ui/dist
+ui/build
 .git
 .gitignore
 .DS_Store

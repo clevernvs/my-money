@@ -10,8 +10,8 @@ pnpm-debug.log*
 
 # Build outputs
 api/dist/
-frontend/dist/
-frontend/build/
+ui/dist/
+ui/build/
 
 # Coverage
 coverage/
@@ -25,13 +25,13 @@ Thumbs.db
 
 # Cache
 .cache/
-frontend/.cache/
+ui/.cache/
 
 # Logs
 logs/
 *.log
 api/*.log
-frontend/*.log
+ui/*.log
 
 # Misc
 *.tmp
