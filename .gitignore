@@ -7,7 +7,6 @@ pnpm-debug.log*
 
 # Environment
 .env
-.env.*
 
 # Build outputs
 api/dist/
